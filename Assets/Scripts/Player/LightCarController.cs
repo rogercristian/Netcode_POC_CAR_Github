@@ -14,22 +14,30 @@ public class LightCarController : NetworkBehaviour
     {
         inputManager = GetComponent<InputManager>();
     }
+
+    //public override void OnNetworkDespawn()
+    //{
+    //    inputManager = GetComponent<InputManager>();
+
+    //}
     void Update()
     {
         if (!IsOwner) { return; }
 
         if (inputManager.GetHardBrakePressed())
         {
-            EmissiveIntensity(isAtive);
+            EmissiveIntensityServerRpc(isAtive);
         }
         else
         {
-            EmissiveIntensity(!isAtive);
+            EmissiveIntensityServerRpc(!isAtive);
         }
 
-        HighBeam();
+        HighBeamServerRpc();
     }
-    void EmissiveIntensity(bool isAtive)
+
+    [ClientRpc]
+    private void EmissiveIntensityClientRpc(bool isAtive)
     {
         isAtive = !isAtive;
         float emissiveIntensity;
@@ -49,7 +57,14 @@ public class LightCarController : NetworkBehaviour
         }
     }
 
-    private void HighBeam()
+    [ServerRpc(RequireOwnership = false)]
+    public void EmissiveIntensityServerRpc(bool isAtive)
+    {
+        EmissiveIntensityClientRpc(isAtive);
+    }
+
+    [ClientRpc]
+    private void HighBeamClientRpc()
     {
         if (GameManager.Instance.isNight)
         {
@@ -62,5 +77,11 @@ public class LightCarController : NetworkBehaviour
             m_HightLightObject.intensity = 12.5f;
 
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void HighBeamServerRpc()
+    {
+        HighBeamClientRpc();
     }
 }

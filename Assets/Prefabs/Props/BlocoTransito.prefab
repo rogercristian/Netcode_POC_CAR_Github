@@ -208,10 +208,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5b4f9e19a9d7184d9f18ca39af64a8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionForce: 10
+  explosionForce: 3
   explosionRadius: 5
   m_Object: {fileID: 235103863769625001, guid: 64e8ec572ebd39d46af7c7cafe4f4763, type: 3}
-  applyDamage: 1
+  applyDamage: 0
   damage: 1
 --- !u!114 &9104610886487195243
 MonoBehaviour:

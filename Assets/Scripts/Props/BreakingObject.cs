@@ -12,6 +12,8 @@ public class BreakingObject : NetworkBehaviour
     [SerializeField] private int damage = 1;
 
     private Rigidbody m_Rigidbody;
+
+    // [SerializeField] private List<GameObject> fragments = new List<GameObject>();
     private void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
@@ -21,16 +23,46 @@ public class BreakingObject : NetworkBehaviour
     {
         if (collision.gameObject.GetComponent<CarController>())
         {
-            Instantiate(m_Object, transform.position, transform.rotation);
-            m_Rigidbody.AddExplosionForce(explosionForce, Vector3.up, explosionRadius);
-            
+            FragmentsServerRpc();
+
             TakeDamage takeDamage = collision.gameObject.GetComponent<TakeDamage>();
-            if (applyDamage && takeDamage !=null)
+            if (applyDamage)
             {
-                takeDamage.ApplyDamageServerRpc(damage);
+                if (takeDamage != null)
+                    takeDamage.ApplyDamageServerRpc(damage);
             }
 
-            Destroy(gameObject, .1f);
+            ObjectDestructibleServerRpc();
         }
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ObjectDestructibleServerRpc()
+    {
+        ObjectDestuctibleClientRpc();
+
+    }
+    [ClientRpc]
+    private void ObjectDestuctibleClientRpc()
+    {
+        gameObject.SetActive(false);
+        // Destroy(gameObject);
+    }
+
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void FragmentsServerRpc()
+    {
+        FragmentseClientRpc();
+    }
+    [ClientRpc]
+    private void FragmentseClientRpc()
+    {
+        Instantiate(m_Object, transform.position, transform.rotation);
+        // fragments.Add(m_Object);
+        m_Object.GetComponent<NetworkObject>();
+        m_Rigidbody.AddExplosionForce(explosionForce, Vector3.up, explosionRadius);
     }
 }
