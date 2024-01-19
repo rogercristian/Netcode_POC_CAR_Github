@@ -19,6 +19,7 @@ public class CarController : NetworkBehaviour
     [SerializeField] float maxSteeringAngle; // maximum steer angle the wheel can have
     [SerializeField] float maxBrakeForce;
 
+    [SerializeField] float maxVelocity = 60f;
     [SerializeField] float hp = 10f;// manter?
     [SerializeField] private Vector3 centerOfMass;
 
@@ -37,9 +38,7 @@ public class CarController : NetworkBehaviour
 
         if (!IsOwner)
         {
-            vc.Priority = 0;
-            //enabled = false;
-            //Destroy(this);
+            vc.Priority = 0;           
         }
         else
         {
@@ -50,24 +49,16 @@ public class CarController : NetworkBehaviour
         rb.centerOfMass = centerOfMass;
         inputManager = GetComponent<InputManager>();
     }
-    //private void Start()
-    //{
-    //    rb = GetComponent<Rigidbody>();
-    //    rb.centerOfMass = centerOfMass;
-    //    inputManager = GetComponent<InputManager>();
-    //  //  playerMiscController = GetComponent<PlayerMiscController>();
-    //}
-
-   
-
-    // finds the corresponding visual wheel
-    // correctly applies the transform
-    
     public void FixedUpdate()
-    {       
+    {
         //Impede que o player controle quando capota
-      //  if (!playerMiscController.isCarController) return;
+        //  if (!playerMiscController.isCarController) return;
+        float maxSpeed = rb.velocity.magnitude; 
+        maxSpeed = Mathf.Clamp(maxSpeed, 0f, maxVelocity);
        
+        rb.velocity = rb.velocity.normalized * maxSpeed;
+        Debug.Log(Mathf.Round(maxSpeed));
+
         Vector2 pos = inputManager.GetMoveDirection();
         Vector2 acceleration = inputManager.GetAcceleratePressed();
         float motor = maxMotorTorque * hp * acceleration.y;

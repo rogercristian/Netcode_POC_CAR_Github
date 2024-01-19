@@ -7,12 +7,19 @@ using UnityEngine.UI;
 public class TestUiNetcode : MonoBehaviour
 {
     [SerializeField] private Button startHostBtn;
+    [SerializeField] private Button startServerBtn;
     [SerializeField] private Button startClientBtn;
 
     private void Awake()
     {
         startHostBtn.onClick.AddListener(() => {
             NetworkManager.Singleton.StartHost();
+            Hide();
+        });
+
+        startServerBtn.onClick.AddListener(() =>
+        {
+            NetworkManager.Singleton.StartServer();
             Hide();
         });
 

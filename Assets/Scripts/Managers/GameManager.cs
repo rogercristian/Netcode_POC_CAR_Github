@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 
     public bool isNight = false;
 
-    public new Light light;
+    public new Light light = new Light();
     // Start is called before the first frame update
     private void Awake()
     {

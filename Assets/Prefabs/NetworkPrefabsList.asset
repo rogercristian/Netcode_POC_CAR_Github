@@ -10,10 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e651dbb3fbac04af2b8f5abf007ddc23, type: 3}
-  m_Name: NetworkPrefabsList_DestructiblesObjs
+  m_Name: NetworkPrefabsList
   m_EditorClassIdentifier: 
   IsDefault: 0
   List:
+  - Override: 0
+    Prefab: {fileID: 3430022387050159585, guid: fff7187505ab23e48b4e72ff3c2d778f,
+      type: 3}
+    SourcePrefabToOverride: {fileID: 0}
+    SourceHashToOverride: 0
+    OverridingTargetPrefab: {fileID: 0}
   - Override: 0
     Prefab: {fileID: 7739408406276684629, guid: 9a655ef9dcced844bbfd2882dd5a0b73,
       type: 3}
@@ -22,6 +28,12 @@ MonoBehaviour:
     OverridingTargetPrefab: {fileID: 0}
   - Override: 0
     Prefab: {fileID: 235103863769625001, guid: 64e8ec572ebd39d46af7c7cafe4f4763, type: 3}
+    SourcePrefabToOverride: {fileID: 0}
+    SourceHashToOverride: 0
+    OverridingTargetPrefab: {fileID: 0}
+  - Override: 0
+    Prefab: {fileID: 8778667630800110605, guid: 32138c0fe331dec42aaf23ba1636e2d5,
+      type: 3}
     SourcePrefabToOverride: {fileID: 0}
     SourceHashToOverride: 0
     OverridingTargetPrefab: {fileID: 0}

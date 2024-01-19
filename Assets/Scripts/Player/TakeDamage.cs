@@ -65,8 +65,8 @@ public class TakeDamage : NetworkBehaviour
 
         rb.GetComponent<NetworkRigidbody>();
 
-        rb.AddForce(transform.up * forceToImpulseOnHit, ForceMode.VelocityChange);
-
+       // rb.AddForce(transform.up * forceToImpulseOnHit, ForceMode.VelocityChange);
+        rb.AddForce( new Vector3(-1, 1, -1) * forceToImpulseOnHit, ForceMode.VelocityChange);
         if (currentEnergy <= 0)
         {
             //Destroy(gameObject, 3f);

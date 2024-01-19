@@ -1,6 +1,6 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.VFX;
 
 public class PlayerAttack : NetworkBehaviour
 {
@@ -12,40 +12,54 @@ public class PlayerAttack : NetworkBehaviour
     [SerializeField] private Transform transformOverlapSphere;
     [SerializeField] float hitOpponent = 2.0f;
     [SerializeField] CinemashineShake shake;
-    [Header("Efeito visual do Dash")][SerializeField] private VisualEffect vfx;
+    // [Header("Efeito visual do Dash")][SerializeField] private VisualEffect vfx;
+    //[Header("Efeito visual do Dash")][SerializeField] private GameObject vfx;
     [Header("intensidade do shake da camera")][SerializeField] private float intensity = 5f;
     [Header("time do shake da camera")][SerializeField] private float time = .5f;
 
+    //
+
+    [SerializeField] Transform vfxTeste;
+    [SerializeField] Transform NTObjectTransform;
     private float currentAttackRate;
     private float currentDashingTime;
     private Rigidbody rb;
     private bool isHitOpponent;
+    Transform vfxTrans;
     InputManager inputManager;
     //void Start()
     //{
     //    rb = GetComponent<Rigidbody>();
     //    currentAttackRate = attackRate;
     //    currentDashingTime = dashingTime;
-    //    vfx.SendEvent("OnStop");
+    //  vfx.SendEvent("OnStop");
     //    inputManager = GetComponent<InputManager>();
     //}
     public override void OnNetworkSpawn()
     {
-        if (!IsOwner) enabled = false;
+        //if (!IsOwner) enabled = false;
 
         rb = GetComponent<Rigidbody>();
         currentAttackRate = attackRate;
         currentDashingTime = dashingTime;
-        vfx.SendEvent("OnStop");
+        // vfx.SetActive(false);
+        //  vfx.SendEvent("OnStop");
         inputManager = GetComponent<InputManager>();
     }
 
     void Update()
     {
-        if (!IsOwner)
+        //if (!IsOwner)
+        //{
+        //    return;
+        //}
+        if (vfxTrans != null)
         {
-            return;
+            vfxTrans.rotation = transformOverlapSphere.rotation;
+            vfxTrans.position = transformOverlapSphere.position;
+
         }
+
         currentAttackRate += Time.deltaTime;
         currentDashingTime += Time.deltaTime;
 
@@ -53,31 +67,16 @@ public class PlayerAttack : NetworkBehaviour
         if (inputManager.GetInteractPressed() && dir.y > 0)
         {
             AttackServerRpc();
-            Attack();
         }
-
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [ServerRpc]
     private void AttackServerRpc()
     {
         AttackClientRpc();
-        //if (IsAttacking)
-        //{
-        //    vfx.SendEvent("OnPlay");
-        //}
     }
     [ClientRpc]
     private void AttackClientRpc()
-    {
-        if (!IsOwner) return;
-        Attack();
-
-        if (IsAttacking) vfx.SendEvent("OnPlay");
-
-    }
-
-    public void Attack()
     {
         if (currentAttackRate > attackRate)
         {
@@ -85,7 +84,9 @@ public class PlayerAttack : NetworkBehaviour
             currentDashingTime = 0;
 
             rb.AddForce(transform.forward * dashForce, ForceMode.VelocityChange);
-            vfx.SendEvent("OnPlay");
+            //StartCoroutine(VFXSpawner());
+            //   vfx.GetComponentInChildren<VisualEffect>().SendEvent("OnPlay");
+            // vfx.SendEvent("OnPlay");
 
             Collider[] hitColliders = Physics.OverlapSphere(transformOverlapSphere.position, hitOpponent / 2);
 
@@ -99,18 +100,15 @@ public class PlayerAttack : NetworkBehaviour
                     isHitOpponent = true;
                     takeDamage.ApplyDamageServerRpc(damage);
                     shake.AttackServerRpc(intensity, time);
-
                 }
                 else
                 {
                     isHitOpponent = false;
                 }
             }
-
+            StartCoroutine(VFXSpawner());
         }
-
     }
-
     public bool IsAttacking => currentDashingTime < dashingTime;
 
     void OnDrawGizmos()
@@ -120,5 +118,16 @@ public class PlayerAttack : NetworkBehaviour
         if (!isHitOpponent)
             //Draw a cube where the OverlapBox is (positioned where your GameObject is as well as a size)
             Gizmos.DrawWireSphere(transformOverlapSphere.position, hitOpponent);
+    }
+    IEnumerator VFXSpawner()
+    {
+        vfxTrans = Instantiate(vfxTeste, transformOverlapSphere.position, transformOverlapSphere.rotation);
+        vfxTrans.GetComponent<NetworkObject>().Spawn(true);
+        vfxTrans.SetParent(NTObjectTransform);
+
+        yield return new WaitForSeconds(.6f);
+
+        vfxTrans.GetComponent<NetworkObject>().Despawn(true);
+        Destroy(vfxTrans);
     }
 }
