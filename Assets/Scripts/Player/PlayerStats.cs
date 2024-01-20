@@ -1,10 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
 public class PlayerStats : NetworkBehaviour
 {
+    [SerializeField] private TextMeshProUGUI playerName;
+    [SerializeField] private string nameToPlayer = "";
+    private NetworkVariable<FixedString128Bytes> playerNetworkName = new NetworkVariable<FixedString128Bytes>(
+        "Player 0", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
     public static int gear;
     public int initialGear;
     public static int energy;
@@ -15,9 +20,12 @@ public class PlayerStats : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) enabled = false;
+
+        playerNetworkName.Value = nameToPlayer + (OwnerClientId + 1);
+        playerName.text = playerNetworkName.Value.ToString();
         gear = initialGear;
         energy = initialEnergy;
         score = initialScore;
     }
-     
+
 }

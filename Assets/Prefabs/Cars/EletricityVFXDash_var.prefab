@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5463296799561571813}
   - component: {fileID: 4937913239517663145}
   - component: {fileID: 5937472292398158237}
-  - component: {fileID: 2723706307078654740}
   m_Layer: 0
   m_Name: EletricityVFXDash_var
   m_TagString: Untagged
@@ -160,17 +159,3 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 1
   AutoObjectParentSync: 1
---- !u!114 &2723706307078654740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8778667630800110605}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fedfd5e11f3d0e640810bdeab8c80646, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parent: {fileID: 0}
-  dashForce: 100
