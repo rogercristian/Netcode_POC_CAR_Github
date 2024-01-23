@@ -272,7 +272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2578536574
+  GlobalObjectIdHash: 4047034512
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -507,6 +507,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayerCar
+      objectReference: {fileID: 0}
+    - target: {fileID: 6875874139872326160, guid: 3a34dac65a1ee574dbf346f88be1433d,
+        type: 3}
+      propertyPath: raioCapotamento
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6875874139872326160, guid: 3a34dac65a1ee574dbf346f88be1433d,
         type: 3}
