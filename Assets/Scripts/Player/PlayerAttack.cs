@@ -70,7 +70,7 @@ public class PlayerAttack : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void AttackServerRpc()
     {
         AttackClientRpc();
@@ -121,13 +121,27 @@ public class PlayerAttack : NetworkBehaviour
     }
     IEnumerator VFXSpawner()
     {
+        DashServerRpc();
+
+        yield return new WaitForSeconds(1f);
+
+        DestroyDashServerRpc();
+    }
+    [ServerRpc(RequireOwnership = false)]
+    void DashServerRpc()
+    {
         vfxTrans = Instantiate(vfxTeste, transformOverlapSphere.position, transformOverlapSphere.rotation);
         vfxTrans.GetComponent<NetworkObject>().Spawn(true);
         vfxTrans.SetParent(NTObjectTransform);
+    }
+    [ServerRpc(RequireOwnership = false)]
+    void DestroyDashServerRpc()
+    {
+        if (vfxTrans != null)
+        {
+            vfxTrans.GetComponent<NetworkObject>().Despawn(true);
+            Destroy(vfxTrans);
 
-        yield return new WaitForSeconds(.6f);
-
-        vfxTrans.GetComponent<NetworkObject>().Despawn(true);
-        Destroy(vfxTrans);
+        }
     }
 }

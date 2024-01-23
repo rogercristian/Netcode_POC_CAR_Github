@@ -57,7 +57,7 @@ public class CarController : NetworkBehaviour
         maxSpeed = Mathf.Clamp(maxSpeed, 0f, maxVelocity);
        
         rb.velocity = rb.velocity.normalized * maxSpeed;
-        Debug.Log(Mathf.Round(maxSpeed));
+        //Debug.Log(Mathf.Round(maxSpeed));
 
         Vector2 pos = inputManager.GetMoveDirection();
         Vector2 acceleration = inputManager.GetAcceleratePressed();

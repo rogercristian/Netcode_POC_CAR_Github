@@ -52,7 +52,7 @@ public class CinemashineShake : NetworkBehaviour
         
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     public void AttackServerRpc(float intensity, float time)
     {
         
