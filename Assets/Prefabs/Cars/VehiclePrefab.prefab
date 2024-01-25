@@ -88,7 +88,6 @@ GameObject:
   - component: {fileID: 2608574703451335419}
   - component: {fileID: 84243900650363473}
   - component: {fileID: 4983002424113698016}
-  - component: {fileID: 2661451916781017278}
   - component: {fileID: 948273032457384490}
   - component: {fileID: 6811622171795380992}
   - component: {fileID: 2536454884388531738}
@@ -136,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 169281026
+  GlobalObjectIdHash: 3363257146
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -206,19 +205,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawn0: {fileID: 6855983251509656339, guid: 784fec5606fe80541b87f0422fe53646, type: 3}
   spawn01: {fileID: 2823308466159748130, guid: eb38154c85a7c5246a2e8970c43edabd, type: 3}
---- !u!114 &2661451916781017278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 299019149673704259}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e08341a53703bb1498f730b1ca7b1bef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vector3: {x: -300, y: 50, z: -50}
 --- !u!114 &948273032457384490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,9 +223,9 @@ MonoBehaviour:
   SyncRotAngleX: 1
   SyncRotAngleY: 1
   SyncRotAngleZ: 1
-  SyncScaleX: 1
-  SyncScaleY: 1
-  SyncScaleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
@@ -282,9 +268,9 @@ MonoBehaviour:
     rightWheel: {fileID: 3365862183985950812}
     motor: 1
     steering: 0
-  maxMotorTorque: 600
+  maxMotorTorque: 400
   maxSteeringAngle: 30
-  maxBrakeForce: 800
+  maxBrakeForce: 600
   maxVelocity: 60
   hp: 10
   vc: {fileID: 0}
@@ -300,12 +286,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 119f433bb6d9eb54c9117d3157b5c655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRate: 1
+  attackRate: 2
   damage: 10
   dashForce: 10
-  dashingTime: 1
+  dashingTime: 2
   transformOverlapSphere: {fileID: 7110341485529089840}
-  hitOpponent: 2
+  hitOpponent: 2.77
   shake: {fileID: 0}
   intensity: 5
   time: 0.5
