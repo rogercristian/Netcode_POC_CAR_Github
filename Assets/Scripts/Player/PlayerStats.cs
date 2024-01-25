@@ -21,7 +21,7 @@ public class PlayerStats : NetworkBehaviour
     {
         if (!IsOwner) enabled = false;
 
-        playerNetworkName.Value = nameToPlayer + (OwnerClientId + 1);
+        playerNetworkName.Value = nameToPlayer + (OwnerClientId);
         playerName.text = playerNetworkName.Value.ToString();
         gear = initialGear;
         energy = initialEnergy;

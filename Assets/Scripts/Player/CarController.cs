@@ -21,41 +21,52 @@ public class CarController : NetworkBehaviour
 
     [SerializeField] float maxVelocity = 60f;
     [SerializeField] float hp = 10f;// manter?
-    [SerializeField] private Vector3 centerOfMass;
+                                    //  [SerializeField] private Vector3 centerOfMass;
 
 
     private float currentBrakeForce;
     private Rigidbody rb;
-   //PlayerMiscController playerMiscController;
+    //PlayerMiscController playerMiscController;
 
     [SerializeField] private CinemachineVirtualCamera vc;
     //  [SerializeField] private AudioListener audioListener;
 
     InputManager inputManager;
 
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+            inputManager = GetComponent<InputManager>();
+
+    }
     public override void OnNetworkSpawn()
     {
 
-        if (!IsOwner)
+        if (IsOwner)
         {
-            vc.Priority = 0;           
+            vc = FindAnyObjectByType<CinemachineVirtualCamera>();
+            vc.Follow = gameObject.transform;
+            vc.LookAt = gameObject.transform;
+            vc.Priority = 1;
+         //   rb = GetComponent<Rigidbody>();
+            // rb.centerOfMass = centerOfMass;
+          //  inputManager = GetComponent<InputManager>();
+          
+           // vc.Priority = 0;
         }
         else
         {
-            vc.Priority = 1;
+            vc.Priority = 0;
         }
 
-        rb = GetComponent<Rigidbody>();
-        rb.centerOfMass = centerOfMass;
-        inputManager = GetComponent<InputManager>();
     }
     public void FixedUpdate()
     {
         //Impede que o player controle quando capota
         //  if (!playerMiscController.isCarController) return;
-        float maxSpeed = rb.velocity.magnitude; 
+        float maxSpeed = rb.velocity.magnitude;
         maxSpeed = Mathf.Clamp(maxSpeed, 0f, maxVelocity);
-       
+
         rb.velocity = rb.velocity.normalized * maxSpeed;
         //Debug.Log(Mathf.Round(maxSpeed));
 
@@ -108,5 +119,5 @@ public class CarController : NetworkBehaviour
         visualWheel.transform.SetPositionAndRotation(position, rotation);
     }
 
-  
+
 }

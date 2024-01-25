@@ -8,7 +8,7 @@ public class PlayerAttack : NetworkBehaviour
     [SerializeField] private int damage;
     [SerializeField] private float dashForce;
     [SerializeField] private float dashingTime;
-    [SerializeField] private Vector3 origin;
+   // [SerializeField] private Vector3 origin;
     [SerializeField] private Transform transformOverlapSphere;
     [SerializeField] float hitOpponent = 2.0f;
     [SerializeField] CinemashineShake shake;
@@ -19,7 +19,7 @@ public class PlayerAttack : NetworkBehaviour
 
     //
 
-    [SerializeField] Transform vfxTeste;
+    [SerializeField] Transform vfxTransform;
     [SerializeField] Transform NTObjectTransform;
     private float currentAttackRate;
     private float currentDashingTime;
@@ -27,24 +27,25 @@ public class PlayerAttack : NetworkBehaviour
     private bool isHitOpponent;
     Transform vfxTrans;
     InputManager inputManager;
-    //void Start()
-    //{
-    //    rb = GetComponent<Rigidbody>();
-    //    currentAttackRate = attackRate;
-    //    currentDashingTime = dashingTime;
-    //  vfx.SendEvent("OnStop");
-    //    inputManager = GetComponent<InputManager>();
-    //}
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+       
+        inputManager = GetComponent<InputManager>();
+    }
     public override void OnNetworkSpawn()
     {
-        //if (!IsOwner) enabled = false;
+        if (IsOwner)
+        {
 
-        rb = GetComponent<Rigidbody>();
-        currentAttackRate = attackRate;
-        currentDashingTime = dashingTime;
-        // vfx.SetActive(false);
-        //  vfx.SendEvent("OnStop");
-        inputManager = GetComponent<InputManager>();
+            shake = FindAnyObjectByType<CinemashineShake>();
+          //  rb = GetComponent<Rigidbody>();
+            currentAttackRate = attackRate;
+            currentDashingTime = dashingTime;
+            // vfx.SetActive(false);
+            //  vfx.SendEvent("OnStop");
+          //  inputManager = GetComponent<InputManager>();
+        }
     }
 
     void Update()
@@ -130,7 +131,7 @@ public class PlayerAttack : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     void DashServerRpc()
     {
-        vfxTrans = Instantiate(vfxTeste, transformOverlapSphere.position, transformOverlapSphere.rotation);
+        vfxTrans = Instantiate(vfxTransform, transformOverlapSphere.position, transformOverlapSphere.rotation);
         vfxTrans.GetComponent<NetworkObject>().Spawn(true);
         vfxTrans.SetParent(NTObjectTransform);
     }
