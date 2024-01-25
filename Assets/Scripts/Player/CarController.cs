@@ -54,10 +54,10 @@ public class CarController : NetworkBehaviour
           
            // vc.Priority = 0;
         }
-        else
-        {
-            vc.Priority = 0;
-        }
+        //else
+        //{
+        //  //  vc.Priority = 0;
+        //}
 
     }
     public void FixedUpdate()

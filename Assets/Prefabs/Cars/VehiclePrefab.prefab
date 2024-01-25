@@ -203,6 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c65bccd0033a3e44bf13e47041b94f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnTransformList: []
   spawn0: {fileID: 6855983251509656339, guid: 784fec5606fe80541b87f0422fe53646, type: 3}
   spawn01: {fileID: 2823308466159748130, guid: eb38154c85a7c5246a2e8970c43edabd, type: 3}
 --- !u!114 &948273032457384490

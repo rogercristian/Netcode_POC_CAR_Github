@@ -4,20 +4,18 @@ using UnityEngine;
 
 public class PlayerAttack : NetworkBehaviour
 {
-    [SerializeField] private float attackRate;
     [SerializeField] private int damage;
+    [SerializeField] private float attackRate;
     [SerializeField] private float dashForce;
     [SerializeField] private float dashingTime;
-   // [SerializeField] private Vector3 origin;
+
     [SerializeField] private Transform transformOverlapSphere;
     [SerializeField] float hitOpponent = 2.0f;
     [SerializeField] CinemashineShake shake;
-    // [Header("Efeito visual do Dash")][SerializeField] private VisualEffect vfx;
-    //[Header("Efeito visual do Dash")][SerializeField] private GameObject vfx;
+
     [Header("intensidade do shake da camera")][SerializeField] private float intensity = 5f;
     [Header("time do shake da camera")][SerializeField] private float time = .5f;
 
-    //
 
     [SerializeField] Transform vfxTransform;
     [SerializeField] Transform NTObjectTransform;
@@ -30,35 +28,26 @@ public class PlayerAttack : NetworkBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-       
+
         inputManager = GetComponent<InputManager>();
     }
     public override void OnNetworkSpawn()
     {
         if (IsOwner)
         {
-
             shake = FindAnyObjectByType<CinemashineShake>();
-          //  rb = GetComponent<Rigidbody>();
+
             currentAttackRate = attackRate;
             currentDashingTime = dashingTime;
-            // vfx.SetActive(false);
-            //  vfx.SendEvent("OnStop");
-          //  inputManager = GetComponent<InputManager>();
         }
     }
 
     void Update()
     {
-        //if (!IsOwner)
-        //{
-        //    return;
-        //}
         if (vfxTrans != null)
         {
             vfxTrans.rotation = transformOverlapSphere.rotation;
             vfxTrans.position = transformOverlapSphere.position;
-
         }
 
         currentAttackRate += Time.deltaTime;
@@ -84,10 +73,7 @@ public class PlayerAttack : NetworkBehaviour
             currentAttackRate = 0;
             currentDashingTime = 0;
 
-            rb.AddForce(transform.forward * dashForce, ForceMode.VelocityChange);
-            //StartCoroutine(VFXSpawner());
-            //   vfx.GetComponentInChildren<VisualEffect>().SendEvent("OnPlay");
-            // vfx.SendEvent("OnPlay");
+            rb.AddForce(transform.forward * dashForce, ForceMode.VelocityChange);            
 
             Collider[] hitColliders = Physics.OverlapSphere(transformOverlapSphere.position, hitOpponent / 2);
 

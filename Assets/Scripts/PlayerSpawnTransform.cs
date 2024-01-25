@@ -1,33 +1,35 @@
-using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerSpawnTransform : NetworkBehaviour
 {
+    [SerializeField] List<Transform> spawnTransformList = new List<Transform>();
 
-    ServerRpcParams rpcParams = default;
-
-    public Transform spawn0;
-    public Transform spawn01;
-
- //  readonly NetworkVariable<ulong> clientId = new (default, NetworkVariableReadPermission.Owner,NetworkVariableWritePermission.Server);
+    SpawnerPosition[] spawners;
+    SpawnerPosition spawner;
     public override void OnNetworkSpawn()
     {
-        if(!IsOwner) { return; }
-      //  clientId = rpcParams.Receive.SenderClientId;
-    
-       if(OwnerClientId == 1)
+        if (!IsOwner) { return; }
+        spawner = FindAnyObjectByType<SpawnerPosition>();
+        spawners = FindObjectsOfType<SpawnerPosition>();
+
+        foreach (var item in spawners)
         {
-            transform.position = spawn0.position;
-        }
-       else if(OwnerClientId == 0)
-        {
-            transform.position = spawn01.position;
+            item.GetComponent<SpawnerPosition>();
+            spawnTransformList.Add(item.transform);
         }
 
+        int index = 0;
+        while (index < spawnTransformList.Count)
+        {
+            if (OwnerClientId.ConvertTo<int>() == index)
+            {
+                transform.position = spawnTransformList[index].position;
+            }
+            index++;
+        }
+       
     }
-
-
-   
 }
