@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 3662.734, g: 3160.4321, b: 3062.383, a: 1}
+  m_IndirectSpecularColor: {r: 3717.984, g: 3289.5454, b: 3496.1216, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3234,7 +3234,7 @@ GameObject:
   - component: {fileID: 1563978513}
   - component: {fileID: 1563978512}
   - component: {fileID: 1563978511}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3321,8 +3321,8 @@ Transform:
   m_GameObject: {fileID: 1563978510}
   serializedVersion: 2
   m_LocalRotation: {x: 0.575719, y: 0, z: 0, w: 0.81764764}
-  m_LocalPosition: {x: 0, y: 1.9, z: 61.5}
-  m_LocalScale: {x: 16.44, y: 62.7, z: 16.44}
+  m_LocalPosition: {x: 297, y: 9, z: 119}
+  m_LocalScale: {x: 401.78, y: 62.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3587,7 +3587,7 @@ PrefabInstance:
     - target: {fileID: 6855983251509656339, guid: 784fec5606fe80541b87f0422fe53646,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -23
+      value: -110
       objectReference: {fileID: 0}
     - target: {fileID: 6855983251509656339, guid: 784fec5606fe80541b87f0422fe53646,
         type: 3}

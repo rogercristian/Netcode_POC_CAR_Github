@@ -10,7 +10,7 @@ public class TakeDamage : NetworkBehaviour
     private HealthBar healthBar;
     [SerializeField] private float forceToImpulseOnHit = 10f;
     [SerializeField] private LayerMask layerMask;
-   // [SerializeField] private int maxDistance = 10;
+    // [SerializeField] private int maxDistance = 10;
     [SerializeField] float raioCapotamento = 1f;
     private bool isCarController;
     Vector3 currentEulerAngles;
@@ -25,7 +25,12 @@ public class TakeDamage : NetworkBehaviour
         healthBar.SetMaxHealth(playerStats.initialEnergy);
         rb = GetComponent<Rigidbody>();
     }
+    public void Update()
+    {
+        currentEulerAngles += new Vector3(0, transform.rotation.y, 0);
 
+        CapotamentoServerRpc();
+    }
 
     [ServerRpc(RequireOwnership = false)]
     public void ApplyDamageServerRpc(int amount)
@@ -48,63 +53,70 @@ public class TakeDamage : NetworkBehaviour
             //Destroy(gameObject, 3f);
             IsDead();
         }
-    }
-    public void Update()
-    {
-        CapotamentoServerRpc();
-    }
-
-    IEnumerator Resetoverturned()
-    {
-
-        yield return new WaitForSeconds(5f);
-        DescapotamentoServerRpc();
-    }
+    }      
 
     [ServerRpc(RequireOwnership = false)]
     public void CapotamentoServerRpc()
     {
-        currentEulerAngles += new Vector3(0, transform.rotation.y, 0);
-
-
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, raioCapotamento, layerMask);
+        RaycastHit hit;
+        Physics.Raycast(transform.localPosition, Vector3.down, out hit, 5f, layerMask);
 
-        for (int i = 0; i < hitColliders.Length; i++)
-        {
-            if (hitColliders[i] != null)
-            {
-                Debug.Log("Toquei no chão /" + currentEulerAngles);
-                isCarController = true;
-
-            }
-            else
-            {
-                isCarController = false;
-                Debug.Log("Não toquei no chão /" + currentEulerAngles);
-               
-            }
-
-
-        }
-        if (!isCarController)
+        if (hit.collider == null)
         {
             StartCoroutine(Resetoverturned());
+            isCarController = false;
+            Debug.Log("Capotei /" + currentEulerAngles + " " + isCarController);
+
+        }
+        else
+        {
+            isCarController = true; 
+            Debug.Log("Toquei no chão /" + currentEulerAngles + " " + isCarController);
         }
 
+        //for (int i = 0; i < hitColliders.Length; i++)
+        //{
+        //    if (hitColliders[i] != null)
+        //    {
+        //        Debug.Log("Não toquei no chão /" + currentEulerAngles);
+        //        isCarController = true;
+
+
+        //        //isCarController = true;
+
+        //    }
+        //    if (!hitColliders[i]) 
+        //    {
+        //        isCarController = false;
+        //        //Debug.Log("Não toquei no chão /" + currentEulerAngles);
+        //        Debug.Log("Toquei no chão /" + currentEulerAngles + " " + isCarController);
+
+        //    }
+
+
+        //} 
+
+        //if (!isCarController)
+        //{
+        //    StartCoroutine(Resetoverturned());
+        //}
     }
     [ServerRpc(RequireOwnership = false)]
     public void DescapotamentoServerRpc()
     {
-        if (!isCarController)
-            transform.localEulerAngles = currentEulerAngles;
+        transform.localEulerAngles = currentEulerAngles;
     }
-
     void IsDead()
     {
         Debug.Log("Morri");
     }
+    IEnumerator Resetoverturned()
+    {
 
-
+        yield return new WaitForSeconds(1.5f);
+        DescapotamentoServerRpc();
+    }
     void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;

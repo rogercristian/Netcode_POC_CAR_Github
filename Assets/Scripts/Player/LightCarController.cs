@@ -24,7 +24,9 @@ public class LightCarController : NetworkBehaviour
     {
         if (!IsOwner) { return; }
 
-        if (inputManager.GetHardBrakePressed())
+        Vector2 dir = inputManager.GetAcceleratePressed();
+
+        if (inputManager.GetHardBrakePressed() || dir.y < 0)
         {
             EmissiveIntensityServerRpc(isAtive);
         }
