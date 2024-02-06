@@ -4,7 +4,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TestUiNetcode : MonoBehaviour
+public class UiNetworkScreen : MonoBehaviour
 {
     [SerializeField] private Button startHostBtn;
     [SerializeField] private Button startServerBtn;

@@ -11,8 +11,9 @@ public class TakeDamage : NetworkBehaviour
     [SerializeField] private float forceToImpulseOnHit = 10f;
     [SerializeField] private LayerMask layerMask;
     // [SerializeField] private int maxDistance = 10;
-    [SerializeField] float raioCapotamento = 1f;
-    private bool isCarController;
+    [SerializeField] float raioCapotamento = 5f;
+    [SerializeField] Vector3 point1;
+  [HideInInspector]  public bool isCarController;
     Vector3 currentEulerAngles;
     Rigidbody rb;
 
@@ -58,9 +59,9 @@ public class TakeDamage : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void CapotamentoServerRpc()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, raioCapotamento, layerMask);
+       // Collider[] hitColliders = Physics.OverlapSphere(transform.position + point1, raioCapotamento, layerMask);
         RaycastHit hit;
-        Physics.Raycast(transform.localPosition, Vector3.down, out hit, 5f, layerMask);
+        Physics.Raycast(transform.localPosition, Vector3.down, out hit, raioCapotamento, layerMask);
 
         if (hit.collider == null)
         {
@@ -69,12 +70,18 @@ public class TakeDamage : NetworkBehaviour
             Debug.Log("Capotei /" + currentEulerAngles + " " + isCarController);
 
         }
-        else
-        {
-            isCarController = true; 
-            Debug.Log("Toquei no chão /" + currentEulerAngles + " " + isCarController);
-        }
-
+        //else
+        //{
+        //    isCarController = true; 
+        //    Debug.Log("Toquei no chão /" + currentEulerAngles + " " + isCarController);
+        //}
+        //for (int i = 0; i < hitColliders.Length; i++)
+        //{
+        //    if (hitColliders[i] != null)
+        //    {
+        //        StartCoroutine(Resetoverturned());
+        //    }
+        //}
         //for (int i = 0; i < hitColliders.Length; i++)
         //{
         //    if (hitColliders[i] != null)
@@ -113,14 +120,13 @@ public class TakeDamage : NetworkBehaviour
     }
     IEnumerator Resetoverturned()
     {
-
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(3f);
         DescapotamentoServerRpc();
     }
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, raioCapotamento);
-    }
+    //void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.blue;
+    //    Gizmos.DrawWireSphere(transform.position + point1, raioCapotamento);
+    //}
 
 }

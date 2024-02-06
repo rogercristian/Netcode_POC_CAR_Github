@@ -23,7 +23,7 @@ public class CarController : NetworkBehaviour
     [SerializeField] float hp = 10f;// manter?
                                     //  [SerializeField] private Vector3 centerOfMass;
 
-
+    private TakeDamage takeDamage;
     private float currentBrakeForce;
     private Rigidbody rb;
     //PlayerMiscController playerMiscController;
@@ -36,7 +36,8 @@ public class CarController : NetworkBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-            inputManager = GetComponent<InputManager>();
+        inputManager = GetComponent<InputManager>();
+        takeDamage = GetComponent<TakeDamage>();
 
     }
     public override void OnNetworkSpawn()
@@ -48,11 +49,11 @@ public class CarController : NetworkBehaviour
             vc.Follow = gameObject.transform;
             vc.LookAt = gameObject.transform;
             vc.Priority = 1;
-         //   rb = GetComponent<Rigidbody>();
+            //   rb = GetComponent<Rigidbody>();
             // rb.centerOfMass = centerOfMass;
-          //  inputManager = GetComponent<InputManager>();
-          
-           // vc.Priority = 0;
+            //  inputManager = GetComponent<InputManager>();
+
+            // vc.Priority = 0;
         }
         //else
         //{
@@ -63,7 +64,8 @@ public class CarController : NetworkBehaviour
     public void FixedUpdate()
     {
         //Impede que o player controle quando capota
-        //  if (!playerMiscController.isCarController) return;
+        //  if (!takeDamage.isCarController) return;
+      //  if (!GameManager.Instance.IsGamePlaying()) return;
         float maxSpeed = rb.velocity.magnitude;
         maxSpeed = Mathf.Clamp(maxSpeed, 0f, maxVelocity);
 
