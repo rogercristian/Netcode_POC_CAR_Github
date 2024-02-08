@@ -44,6 +44,10 @@ public class PlayerAttack : NetworkBehaviour
 
     void Update()
     {
+        if (!GameManager.Instance.IsGamePlaying())
+        {
+            return;
+        }
         if (vfxTrans != null)
         {
             vfxTrans.rotation = transformOverlapSphere.rotation;

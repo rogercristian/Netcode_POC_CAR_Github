@@ -63,9 +63,13 @@ public class CarController : NetworkBehaviour
     }
     public void FixedUpdate()
     {
+        if (!GameManager.Instance.IsGamePlaying())
+        {
+            return;
+        }
         //Impede que o player controle quando capota
         //  if (!takeDamage.isCarController) return;
-      //  if (!GameManager.Instance.IsGamePlaying()) return;
+        //  if (!GameManager.Instance.IsGamePlaying()) return;
         float maxSpeed = rb.velocity.magnitude;
         maxSpeed = Mathf.Clamp(maxSpeed, 0f, maxVelocity);
 

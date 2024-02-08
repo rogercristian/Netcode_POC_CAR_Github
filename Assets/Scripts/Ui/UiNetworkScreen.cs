@@ -12,6 +12,7 @@ public class UiNetworkScreen : MonoBehaviour
 
     private void Awake()
     {
+        
         startHostBtn.onClick.AddListener(() => {
             NetworkManager.Singleton.StartHost();
             Hide();
@@ -29,6 +30,19 @@ public class UiNetworkScreen : MonoBehaviour
             Hide();
         });
     }
+    //private void Start()
+    //{
+    //    GameManager.Instance.OnLocalPlayerReadyChange += GameManager_OnLocalPlayerReadyChange; ;
+
+    //}
+
+    //private void GameManager_OnLocalPlayerReadyChange(object sender, System.EventArgs e)
+    //{
+    //    if (GameManager.Instance.IsLocalPlayerReady())
+    //    {
+    //        Hide();
+    //    }
+    //}
 
     private void Hide()
     {

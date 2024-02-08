@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
-using UnityEngine.SocialPlatforms.Impl;
 using TMPro;
 
 public class PlayerInfo : NetworkBehaviour
