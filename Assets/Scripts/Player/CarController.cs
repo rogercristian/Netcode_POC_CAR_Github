@@ -20,6 +20,7 @@ public class CarController : NetworkBehaviour
     [SerializeField] float maxBrakeForce;
 
     [SerializeField] float maxVelocity = 60f;
+    float maxSpeed;
     [SerializeField] float hp = 10f;// manter?
                                     //  [SerializeField] private Vector3 centerOfMass;
 
@@ -70,10 +71,12 @@ public class CarController : NetworkBehaviour
         //Impede que o player controle quando capota
         //  if (!takeDamage.isCarController) return;
         //  if (!GameManager.Instance.IsGamePlaying()) return;
-        float maxSpeed = rb.velocity.magnitude;
+
+        maxSpeed = rb.velocity.magnitude;
         maxSpeed = Mathf.Clamp(maxSpeed, 0f, maxVelocity);
 
         rb.velocity = rb.velocity.normalized * maxSpeed;
+
         //Debug.Log(Mathf.Round(maxSpeed));
 
         Vector2 pos = inputManager.GetMoveDirection();
@@ -125,5 +128,19 @@ public class CarController : NetworkBehaviour
         visualWheel.transform.SetPositionAndRotation(position, rotation);
     }
 
+    //public float GetMaxVelocity()
+    //{
+    //    return maxVelocity ;
+    //}
 
+    public float Velocimeter()
+    {
+        return maxSpeed = Mathf.Round(Mathf.Clamp(maxSpeed, 0f, maxVelocity));
+
+    }
+
+    public float MaxSpeed()
+    {
+        return maxVelocity;
+    }
 }

@@ -1,24 +1,46 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
-using TMPro;
 
 public class PlayerInfo : NetworkBehaviour
 {
-    private NetworkVariable<FixedString128Bytes> playerNetworkName = new NetworkVariable<FixedString128Bytes>(
-       "Player 0", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-
-    [SerializeField] private TextMeshProUGUI playerName;
-   
+    [SerializeField] private TextMeshProUGUI playerVelocimeter;
+    CarController carController;
     // Start is called before the first frame update
     public override void OnNetworkSpawn()
     {
+       // if (!IsOwner) enabled = false;
+
+    
+
+        VelocimeterServerRpc();
+    }
+
+    private void Update()
+    {
+        VelocimeterServerRpc();
+    }
+
+    
+    /** */
+
+    [ServerRpc(RequireOwnership = false)]
+    public void VelocimeterServerRpc()
+    {
+        VelocimeterClientRpc();
+    }
+
+    [ClientRpc]
+    public void VelocimeterClientRpc()
+    {
         if (!IsOwner) enabled = false;
 
-        playerNetworkName.Value = PlayerStats.playerGetName + " " + (OwnerClientId);
-        playerName.text = playerNetworkName.Value.ToString();
+        
+            carController = FindObjectOfType<CarController>();
+
+            playerVelocimeter.text = carController.Velocimeter().ToString();
+        
 
     }
 }
